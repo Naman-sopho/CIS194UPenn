@@ -9,3 +9,9 @@ toDigitsRev num = if num < 0
 
 toDigits :: Integer -> [Integer]
 toDigits num = reverse (toDigitsRev num)
+
+-- Exercise 2
+doubleEveryOther :: [Integer] -> [Integer]
+doubleEveryOther [] = []
+doubleEveryOther [x] = [2 * x]
+doubleEveryOther list = doubleEveryOther (init (init list)) ++ [last (init list)] ++ [2 * (last list)]
