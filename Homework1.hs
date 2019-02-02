@@ -15,3 +15,8 @@ doubleEveryOther :: [Integer] -> [Integer]
 doubleEveryOther [] = []
 doubleEveryOther [x] = [2 * x]
 doubleEveryOther list = doubleEveryOther (init (init list)) ++ [last (init list)] ++ [2 * (last list)]
+
+-- Exercise 3
+sumDigits :: [Integer] -> Integer
+sumDigits [] = 0
+sumDigits (x:xs) = sum(toDigits x) + sumDigits xs
