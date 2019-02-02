@@ -20,3 +20,9 @@ doubleEveryOther list = doubleEveryOther (init (init list)) ++ [last (init list)
 sumDigits :: [Integer] -> Integer
 sumDigits [] = 0
 sumDigits (x:xs) = sum(toDigits x) + sumDigits xs
+
+-- Exercise 4
+validate :: Integer -> Bool
+validate x = if sumDigits (doubleEveryOther (toDigits x)) `mod` 10 == 0
+             then True
+             else False
