@@ -4,8 +4,8 @@ module Homework1 where
 toDigitsRev :: Integer -> [Integer]
 toDigitsRev 0 = []
 toDigitsRev num = if num < 0
-                then []
-                else num `mod` 10 : toDigitsRev (num `div` 10)
+                  then []
+                  else num `mod` 10 : toDigitsRev (num `div` 10)
 
 toDigits :: Integer -> [Integer]
 toDigits num = reverse (toDigitsRev num)
@@ -26,3 +26,12 @@ validate :: Integer -> Bool
 validate x = if sumDigits (doubleEveryOther (toDigits x)) `mod` 10 == 0
              then True
              else False
+
+-- Exercise 5
+-- Towers of Hanoi
+type Peg = String
+type Move = (Peg, Peg)
+hanoi :: Integer -> Peg -> Peg -> Peg -> [Move]
+hanoi 0 beg aux end = []
+hanoi 1 beg aux end = [(beg, end)]
+hanoi numberOfDiscs a b c = hanoi (numberOfDiscs - 1) a b c ++ hanoi 1 a c b ++ hanoi (numberOfDiscs - 1) c a b
