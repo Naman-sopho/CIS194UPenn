@@ -22,3 +22,6 @@ getMessage :: Char -> [String] -> String
 getMessage messageType message
                               | messageType == 'E' = unwords (drop 3 message)
                               | otherwise = unwords (drop 2 message)
+
+parse :: String -> [LogMessage]
+parse input = map parseMessage (lines input)
