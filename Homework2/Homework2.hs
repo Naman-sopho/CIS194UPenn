@@ -3,11 +3,13 @@ module Homework2.Homework2 where
 import Data.Char
 import Homework2.Log
 
+-- Message parsing
 parseMessage :: String -> LogMessage
 parseMessage message
         | (message !! 0) == 'E' = LogMessage (Error (getErrorLevel message)) (getTimeStamp 'E' (words message)) (getMessage 'E' (words message))
         | (message !! 0) == 'I' = LogMessage Info (getTimeStamp 'I' (words message)) (getMessage 'I' (words message))
         | (message !! 0) == 'W' = LogMessage Warning (getTimeStamp 'W' (words message)) (getMessage 'W' (words message))
+        | otherwise = Unknown message
 
 
 getErrorLevel :: String -> Int
@@ -25,3 +27,20 @@ getMessage messageType message
 
 parse :: String -> [LogMessage]
 parse input = map parseMessage (lines input)
+
+
+-- Building message tree
+insert :: LogMessage -> MessageTree -> MessageTree
+insert (Unknown message) node = node
+insert message node = case node of
+                              Leaf -> Node Leaf message Leaf
+                              Node left logMessage right -> if (compareMessage logMessage message)
+                                                            then Node left logMessage (insert message right)
+                                                            else Node (insert message left) logMessage right
+
+-- Compares timestamps of message at root with the message to be inserted
+-- Returns True if message to be inserted is greater
+compareMessage :: LogMessage -> LogMessage -> Bool
+compareMessage (LogMessage _ rootTimeStamp _) (LogMessage _ newMessageTimeStamp _) = if (rootTimeStamp < newMessageTimeStamp)
+                                                                              then True
+                                                                              else False
