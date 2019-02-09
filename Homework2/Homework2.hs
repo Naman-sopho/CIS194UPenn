@@ -42,5 +42,27 @@ insert message node = case node of
 -- Returns True if message to be inserted is greater
 compareMessage :: LogMessage -> LogMessage -> Bool
 compareMessage (LogMessage _ rootTimeStamp _) (LogMessage _ newMessageTimeStamp _) = if (rootTimeStamp < newMessageTimeStamp)
-                                                                              then True
-                                                                              else False
+                                                                                     then True
+                                                                                     else False
+
+-- Builds the message tree from a list of Log messages
+build :: [LogMessage] -> MessageTree
+build [] = Leaf
+build (first:rest) = insert first (build rest)
+
+-- Inorder traversal of the Message tree
+inOrder :: MessageTree -> [LogMessage]
+inOrder Leaf = []
+inOrder (Node left message right) = inOrder left ++ [message] ++ inOrder right
+
+whatWentWrong :: [LogMessage] -> [String]
+whatWentWrong list = process (inOrder(build list))
+
+-- Returns a list of message strings after filtering errors with severity > 50
+process :: [LogMessage] -> [String]
+process [] = []
+process ((LogMessage (Error severity) _ message) : rest) = if severity > 50
+                                                           then [message] ++ process rest
+                                                           else process rest
+
+process (LogMessage _ _ _ : rest) = process rest
