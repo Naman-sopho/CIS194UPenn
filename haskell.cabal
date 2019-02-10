@@ -17,7 +17,7 @@ build-type:          Simple
 extra-source-files:  CHANGELOG.md
 
 library
-  exposed-modules:     Main, Homework1.Homework1, Homework2.Log, Homework2.Homework2
+  exposed-modules:     Main, Homework1.Homework1, Homework2.Log, Homework2.Homework2, Homework3.Homework3
   -- other-modules:
   -- other-extensions:
   build-depends:       base >=4.12 && <4.13
