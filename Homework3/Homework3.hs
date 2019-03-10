@@ -17,3 +17,13 @@ localMaxima (a : b : c : xs)
   | otherwise = localMaxima (b : c : xs)
 
 localMaxima _ = []
+
+histo:: Int -> (Int, Int) -> String
+histo m (i, n) = show i ++ "=" ++
+            replicate n '*' ++
+            replicate (m - n) ' '
+
+histogram:: [Integer] -> String
+histogram xs = let count = map (\n -> length $ filter (== n) xs) [0..9]
+                   m = maximum count in
+                   unlines $ reverse $ transpose $ map (histo m) $ zip [0..9] count
